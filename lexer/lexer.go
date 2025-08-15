@@ -1,7 +1,5 @@
 package lexer
 
-import "fmt"
-
 type Lexer interface {
 	Tokenize(source string) ([]Token, error)
 }
@@ -49,7 +47,11 @@ func (l *lexer) Tokenize(source string) ([]Token, error) {
 			}
 		}
 		if !matched {
-			return nil, fmt.Errorf("invalid token at line %d col %d", row, col)
+			return nil, &Error{
+				Token: source[pos],
+				Row:   row,
+				Col:   col,
+			}
 		}
 	}
 

@@ -64,6 +64,15 @@ var matchers = []TokenMatcher{
 	{Kind: TokenKindModifier, Matcher: matchModifier},
 }
 
+func newKeywordMatcher(tok string) func(string) string {
+	return func(source string) string {
+		if strings.HasPrefix(source, tok) {
+			return tok
+		}
+		return ""
+	}
+}
+
 func matchStringLiteral(source string) string {
 	// Attempt to split source by double-quote (").
 	// The valid string literal should be splited into 3 parts.
@@ -73,15 +82,6 @@ func matchStringLiteral(source string) string {
 		return ""
 	}
 	return strs[1]
-}
-
-func newKeywordMatcher(tok string) func(string) string {
-	return func(source string) string {
-		if strings.HasPrefix(source, tok) {
-			return tok
-		}
-		return ""
-	}
 }
 
 func matchModifier(source string) string {
